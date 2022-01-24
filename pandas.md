@@ -1,4 +1,7 @@
+# Pandas Cheat Sheet
+
 ## Содержание
+
 [Импорт/экспорт данных](#import-export)  
 [Отображение датасета](#dataset)  
 [Ключевое поле и извлечение данных](#index)  
@@ -9,179 +12,481 @@
 [Аггрегирование и анализ данных](#grouping)  
 [Подготовка данных](#data-treatment)  
 [Работа с датами](#dates)
-___
+
+---
+
 ### Импорт/экспорт данных <a id="import-export"></a>
-**pd.read_csv('source'*(, sep=' ')*)** - загрузка *.csv
 
-**dataset.to_csv('source/name.csv'*(, sep=' ')*)** - выгрузка в *.csv
+- Загрузка \*.csv файла
 
-**dataset = pd.read_excel(data_location *(, index_col='column_1', dtype={'column_2': str})*)** - загрузка excel-файла, путь к которому прописан в переменной *data_location*
+  ```python
+  pd.read_csv('source/filename.csv'(, sep=' '))
+  ```
 
-**dataset.to_excel('source/name.xlsx')** - выгрузка в Excel
+- Выгрузка в \*.csv
 
-**dataset.to_json('source/name.json'*(, orient='records', lines=True)*)** - выгрузка в JSON
+  ```python
+  dataset.to_csv('source/name.csv'(, sep=' '))
+  ```
 
-**pd.read_json('source/name.json'*(, orient='records', lines=True)*)** - загрузка JSON  файлов
+- Загрузка excel-файла, путь к которому прописан в переменной `data_location`
 
-**dataset.to_sql('table_name', database *(, if_exists='replace')*)** - выгрузка в SQL БД
+  ```python
+  dataset = pd.read_excel(data_location (, index_col='column_1', dtype={'column_2': str}))
+  ```
 
-**pd.read_sql('table_name', database)** - загрузка таблицы *table_name* из БД SQL
+- Выгрузка в Excel
 
-**pd.read_sql_query('SELECT * FROM table_name', database)** - загрузка данных по SQL-запросу из таблицы *table_name* в SQL БД
-___
+  ```python
+  dataset.to_excel('source/name.xlsx')
+  ```
+
+- Выгрузка в JSON
+
+  ```python
+  dataset.to_json('source/name.json'(, orient='records', lines=True))
+  ```
+
+- Загрузка JSON файлов
+
+  ```python
+  pd.read_json('source/name.json'(, orient='records', lines=True))
+  ```
+
+- Выгрузка в SQL БД
+
+  ```python
+  dataset.to_sql('table_name', database (, if_exists='replace'))
+  ```
+
+- Загрузка таблицы `table_name` из БД SQL
+
+  ```python
+  pd.read_sql('table_name', database)
+  ```
+
+- Загрузка данных по SQL-запросу из таблицы `table_name` в SQL БД
+  ```python
+  pd.read_sql_query('SELECT * FROM table_name', database)
+  ```
+
+---
 
 ### Отображение датасета <a id="dataset"></a>
-**dataset.shape** - количество строк и столбцов  
-**dataset.dtypes** - типы данных столбцов
-**dataset.info()** - типы данных в стобцах  
-**dataset.info** - столбцы, тип данных с превью строк  
-**dataset.head(n)** - первые n строк  
-**dataset.tail(n)** - последние n строк  
-**pd.set_option()** - настройка отображения в pandas.  
-Например: `pd.set_option('display.max_columns', 30)` - отображает максимально 30 столбцов // `display.max_rows`
-___
+
+`dataset.shape` - количество строк и столбцов  
+`dataset.dtypes` - типы данных столбцов
+`dataset.info()` - типы данных в стобцах  
+`dataset.info` - столбцы, тип данных с превью строк  
+`dataset.head(n)` - первые n строк  
+`dataset.tail(n)` - последние n строк  
+`pd.set_option()` - настройка отображения в pandas.  
+`display.max_rows` - максимальное число строк для отображения  
+Например: `pd.set_option('display.max_columns', 30)` - отображает максимально 30 столбцов
+
+---
 
 ### Ключевое поле и извлечение данных <a id="index"></a>
-**dataset['Column_name']** - отобразить столбец по имени (series data type)
 
-**dataset[['Column_1', 'Column_2']]** - отобразить несколько столбцов (dataframe)
+- Отобразить столбец по имени (series data type)
 
-**dataset.columns** - список наименований столбцов
+  ```python
+  dataset['Column_name']
+  ```
 
-**dataset.iloc[n(, m)]** - доступ к n-ой по счету строке (с опциональным отожением только m по счету столбца), можно передать список из строк (и столбцов)
+- Отобразить несколько столбцов (dataframe)
 
-**dataset.loc[index (, 'column_name')]** - отображение строки по заданному индексу(номер п/п, значение и т.д.) (с опциональным фильтром по столбцу), можно передать словарь
+  ```python
+  dataset[['Column_1', 'Column_2']]
+  ```
 
-**dataset.set_index('column', inplace=True)** - указание, какой столбец должен быть уникальным в датафрейме (аналогично параметру `index_col=` при импорте)
+- Cписок наименований столбцов
 
-**dataset.reset_index(inplace=True)** - вернуть ключ к дефолту
+  ```python
+  dataset.columns
+  ```
 
-**dataset.index** - отображает все значения ключевого поля
+- Доступ к n-ой по счету строке (с опциональным отожением только m по счету столбца), можно передать список из строк (и столбцов)
 
-**dataset.sort_index(inplace=True)** - сортировка по возрастанию `ascending=False` - атрибут для сортировки по убыванию
+  ```python
+  dataset.iloc[n(, m)]
+  ```
 
-**dataset['column'].unique()** - список всех уникальных значений столбца
-___
+- Отображение строки по заданному индексу(номер п/п, значение и т.д.) (с опциональным фильтром по столбцу), можно передать словарь
+
+  ```python
+  dataset.loc[index (, 'column_name')]
+  ```
+
+- Указание, какой столбец должен быть уникальным в датафрейме (аналогично параметру `index_col=` при импорте)
+
+  ```python
+  dataset.set_index('column', inplace=True)
+  ```
+
+- Вернуть ключ к дефолтному значению
+
+  ```python
+  dataset.reset_index(inplace=True)
+  ```
+
+- Отображает все значения ключевого поля
+
+  ```python
+  dataset.index
+  ```
+
+- Сортировка по возрастанию; `ascending=False` - атрибут для сортировки по убыванию
+
+  ```python
+  dataset.sort_index(inplace=True)
+  ```
+
+- Список всех уникальных значений столбца
+
+  ```python
+  dataset['column'].unique()
+  ```
+
+---
 
 ### Фильтры <a id="filters"></a>
-**filter_var = dataset['column'] == 'value'** - шаблон для создания переменной, содержащей фильтр. Применяется следующим образом: `dataset[filter_var]` или `dataset.loc[filter_var(, 'some_column')]`
 
-**~filter_var** - противоположный фильтр (поведение аналогичное !=)
+- Шаблон для создания переменной, содержащей фильтр. Применяется следующим образом: `dataset[filter_var]` или `dataset.loc[filter_var(, 'some_column')]`
 
-**dataset['column'].isin(my_list)** - отфильтровывает значения столбца *column*, которые входят в *my_list*
+  ```python
+  filter_var = dataset['column'] == 'value'
+  ```
 
-**dataset['column'].str.contains('my_string'*(, na=False)*)** - отфильтровывает строковые значения столбца *column*, которые содержат в себе подстроку *my_string*. `na=False` - игнорировать пустые значения
-___
+- противоположный фильтр (поведение аналогичное !=)
+
+  ```python
+  ~filter_var
+  ```
+
+- Отфильтровывает значения столбца `column`, которые входят в `my_list`
+
+  ```python
+  dataset['column'].isin(my_list)
+  ```
+
+- Отфильтровывает строковые значения столбца `column`, которые содержат в себе подстроку `my_string`. `na=False` - игнорировать пустые значения
+  ```python
+  dataset['column'].str.contains('my*string' (, na=False))
+  ```
+
+---
 
 ### Изменение данных <a id="data-change"></a>
-**dataset.columns = [x.upper() for x in dataset.columns]** - пример изменения названия столбцов на заглавные
 
-**dataset.columns = dataset.columns.str.replace(' ', '_')** - пример замены пробелов на нижнее подчеркивание
+- Пример изменения названия столбцов на заглавные
 
-**dataset.rename(columns={'col1': 'new_col_1', 'col2': 'new_col_2'}, inplace=True)** - переименовать наименование столбцов
+  ```python
+  dataset.columns = [x.upper() for x in dataset.columns]
+  ```
 
-**dataset.loc[2, ['name', 'age']] = ['Joe', 20]** - изменить значения полей *name* и *age* в третьей строке
+- Пример замены пробелов на нижнее подчеркивание
 
-**dataset.at[2, ['name', 'age']] = ['Joe', 20]** - аналогично строке выше
+  ```python
+  dataset.columns = dataset.columns.str.replace(' ', '_')
+  ```
 
-**dataset.loc[*filter_var*, 'name'] = 'Joe'** - изменение значения столбца *name* для данных по фильтру из *filter_var*
+- Переименовать наименование столбцов
 
-**dataset['column'] = dataset['column'].str.lower()** - пример приведения всех значений столбца *column* к строчному формату
+  ```python
+  dataset.rename(columns={'col1': 'new_col_1', 'col2': 'new_col_2'}, inplace=True)
+  ```
 
-**dataset['column'] = dataset['column'].apply(len)** - применяет функцию `len()` к значениям столбца *column*. Можно передавать любую функцию
+- Изменить значения полей `name` и `age` в третьей строке
 
-**dataset.applymap(function)** - применить функцию в каждому отдельному элементу в dataframe
+  ```python
+  dataset.loc[2, ['name', 'age']] = ['Joe', 20]
+  ```
 
-**dataset['name'] = dataset['name'].replace({'John': 'Jack', 'Mary': 'Marge'})** - замена значений в столбце *name*
-___
+- Аналогично строке выше
+
+  ```python
+  dataset.at[2, ['name', 'age']] = ['Joe', 20]
+  ```
+
+- Изменение значения столбца `name` для данных по фильтру из `filter_var`
+
+  ```python
+  dataset.loc[filter_var, 'name'] = 'Joe'
+  ```
+
+- Пример приведения всех значений столбца `column` к строчному формату
+
+  ```python
+  dataset['column'] = dataset['column'].str.lower()
+  ```
+
+- Применяет функцию `len()` к значениям столбца `column`. Можно передавать любую функцию
+
+  ```python
+  dataset['column'] = dataset['column'].apply(len)
+  ```
+
+- Применить функцию в каждому отдельному элементу в dataframe
+
+  ```python
+  dataset.applymap(function)
+  ```
+
+- Замена значений в столбце `name`
+  ```python
+  dataset['name'] = dataset['name'].replace({'John': 'Jack', 'Mary': 'Marge'})
+  ```
+
+---
 
 ### Удаление/добавление столбцов <a id="columns"></a>
-**dataset['new_col'] = dataset['col_1'] + dataset['col_2']** - пример добавления нового столбца *new_col*, содержащего конкатенацию значений столбцов *col_1* и *col_2*
 
-**dataset.drop(columns=['col_1, 'col_2'], inplace=True)** - удаление столбцов *col_1* и *col_2*
+- Пример добавления нового столбца `new_col`, содержащего конкатенацию значений столбцов `col_1` и `col_2`
 
-**dataset[['col1', 'col2']] = dataset['column'].str.split(' ', expand=True)** - разделить столбец *column* на столбцы *col1* и *col2*, в данном случае разделитель - пробел
+  ```python
+  dataset['new_col'] = dataset['col_1'] + dataset['col_2']
+  ```
 
-**dataset.append({'name': 'Jack'}*(, ignore_index=True)*)** - добавляет новую строку со значением *Jack* в столбце *name*
+- Удаление столбцов `col_1` и `col_2`
 
-**dataset = dataset.append(dataset_2, ignore_index=True)** - объединить два датасета
+  ```python
+  dataset.drop(columns=['col_1', 'col_2'], inplace=True)
+  ```
 
-**dataset.drop(index=value, inplace=True)** - удаляет строку с указанным в *value* идентификатором
+- Разделить столбец `column` на столбцы `col1` и `col2`, в данном случае разделитель - пробел
 
-**dataset.drop(index=dataset[dataset['name'] == 'John'].index)** - определение идентификатора строки по условию (значение = *John*) и удаление строки
-___
+  ```python
+  dataset[['col1', 'col2']] = dataset['column'].str.split(' ', expand=True)
+  ```
+
+- Добавляет новую строку со значением `Jack` в столбце `name`
+
+  ```python
+  dataset.append({'name': 'Jack'} (, ignore_index=True))
+  ```
+
+- Объединить два датасета
+
+  ```python
+  dataset = dataset.append(dataset_2, ignore_index=True)
+  ```
+
+- Удаляет строку с указанным в `value` идентификатором
+
+  ```python
+  dataset.drop(index=value, inplace=True)
+  ```
+
+- Определение идентификатора строки по условию (значение = `John`) и удаление строки
+  ```python
+  dataset.drop(index=dataset[dataset['name'] == 'John'].index)
+  ```
+
+---
 
 ### Сортировка данных <a id="sorting"></a>
-**dataset.sort_values(by='column'*(, ascending=False, inplace=True)*)** - сортировка данных по значениям *column*. Вместо *column* можно список столбцов
 
-**dataset.sort_values(by=['col_1', 'col_2'], ascending=[False, True], inplace=True)** - пример, когда данные сортируются сначала по убыванию *col_1*, зато по возрастанию *col_2*
+- Сортировка данных по значениям `column`. Вместо `column` можно список столбцов
 
-**dataset.sort_index()** - возвращает к сортировке по возрастанию идентификатора
+  ```python
+  dataset.sort*values(by='column' (, ascending=False, inplace=True))
+  ```
 
-**dataset['column'].sort_values()** - сортировка по возрастанию значений столбца *column*
+- Пример, когда данные сортируются сначала по убыванию `col_1`, зато по возрастанию `col_2`
 
-**dataset['column'].nlargest(n)** - первые n максимальных значений столбца *column*
+  ```python
+  dataset.sort_values(by=['col_1', 'col_2'], ascending=[False, True], inplace=True)
+  ```
 
-**dataset.nlargest(n, 'column')** - аналогично предыдущему, но отображает весь датасет
+- Возвращает к сортировке по возрастанию идентификатора
 
-**dataset['column'].nsmallest(n)** - первые n минимальных значений столбца *column*
-___
+  ```python
+  dataset.sort_index()
+  ```
+
+- Сортировка по возрастанию значений столбца `column`
+
+  ```python
+  dataset['column'].sort_values()
+  ```
+
+- Первые _n_ максимальных значений столбца `column`
+
+  ```python
+  dataset['column'].nlargest(n)
+  ```
+
+- Аналогично предыдущему, но отображает весь датасет
+
+  ```python
+  dataset.nlargest(n, 'column')
+  ```
+
+- Первые _n_ минимальных значений столбца `column`
+  ```python
+  dataset['column'].nsmallest(n)
+  ```
+
+---
 
 ### Аггрегирование и анализ данных <a id="grouping"></a>
-**dataset['column'].median()** - медиана значений столбца *column*
 
-**dataset['column'].mean()** - среднее арифметическое значений столбца *column*
+- Медиана значений столбца `column`
 
-**dataset.describe()** - расчет основных числовых параметров набора данных
+  ```python
+  dataset['column'].median()
+  ```
 
-**dataset['column'].count()** - количество непустых значений в столбце
+- Среднее арифметическое значений столбца `column`
 
-**dataset['column'].value_counts()** - подсчет уникальных значений в столбце. `normalize=True` - аргумент для перевода в проценты
+  ```python
+  dataset['column'].mean()
+  ```
 
-**dataset.groupby(['column'])** - возвращает dataframe, сгрупированный по переданным в списке в качестве аргумента названиями полей. Далее вместо этой функции будет указана переменная `grouped_data`
+- Расчет основных числовых параметров набора данных
 
-**grouped_data.get_group('value')** - отображает данные, сгрубированные в отношении *value*. Аналогично можно использовать фильтр
+  ```python
+  dataset.describe()
+  ```
 
-**grouped_data['name'].value_counts().loc['value']** - пример отображения количества уникальных значений столбца *name* в разрезе группировки по *value*
+- Количество непустых значений в столбце
 
-**grouped_data['name'].agg(['median', 'mean'])** - пример использования нескольких аггрегирующих функций на сгрупированном масиве данных для значений столбца *name*
+  ```python
+  dataset['column'].count()
+  ```
 
-**grouped_data['name'].apply(lambda x: x.str.contains('Jack').sum())** - пример посчета всех значений, содержащих подстроку *Jack*, в поле *name* в разрезе сгрупированных по *value* данных
+- Подсчет уникальных значений в столбце. `normalize=True` - аргумент для перевода в проценты
 
-**concat_groups = pd.concat([grouped_data, grouped_data_2]*(, axis='columns', sort=False)*)** - объединенние двух массивов сгруппированных данных (DataSeries)
-___
+  ```python
+  dataset['column'].value_counts()
+  ```
+
+- Возвращает dataframe, сгрупированный по переданным в списке в качестве аргумента названиями полей. Далее вместо этой функции будет указана переменная `grouped_data`
+
+  ```python
+  dataset.groupby(['column'])
+  ```
+
+- Отображает данные, сгрубированные в отношении `value`. Аналогично можно использовать фильтр
+
+  ```python
+  grouped_data.get_group('value')
+  ```
+
+- Пример отображения количества уникальных значений столбца `name` в разрезе группировки по `value`
+
+  ```python
+  grouped_data['name'].value_counts().loc['value']
+  ```
+
+- Пример использования нескольких аггрегирующих функций на сгрупированном масиве данных для значений столбца `name`
+
+  ```python
+  grouped_data['name'].agg(['median', 'mean'])
+  ```
+
+- Пример посчета всех значений, содержащих подстроку `Jack`, в поле `name` в разрезе сгрупированных по `value` данных
+
+  ```python
+  grouped_data['name'].apply(lambda x: x.str.contains('Jack').sum())
+  ```
+
+- Объединенние двух массивов сгруппированных данных (DataSeries)
+  ```python
+  concat_groups = pd.concat([grouped_data, grouped_data_2] (, axis='columns', sort=False))
+  ```
+
+---
 
 ### Подготовка данных <a id="data-treatment"></a>
-**dataset.dropna(inplace=True)** - удаляет всю строку, если хотя бы одно значение в ней None или NaN (дефолтно `how='any'`)  
-`axis='index'` - анализирует данные построчно, `column` - по столбцам  
-`how='all'` - если все значения строки/столбца отсутствуют  
-`subset=['name']` - позволяет указать, в каких полях необходимо искать отсутствующие значения  
 
-**dataset.replace('NA', None, inplace=true)** - заменит все строковые значения *NA* в массиве данных на *None*
+- Удаляет всю строку, если хотя бы одно значение в ней None или NaN (дефолтно `how='any'`)  
+  `axis='index'` - анализирует данные построчно, `column` - по столбцам  
+  `how='all'` - если все значения строки/столбца отсутствуют  
+  `subset=['name']` - позволяет указать, в каких полях необходимо искать отсутствующие значения
 
-**dataset.isna()** - отобразит маску, по которой можно увидеть, где отсутствуют данные
+  ```python
+  dataset.dropna(inplace=True)
+  ```
 
-**dataset.fillna('NA', inplace=True)** - заменит все отсутвующие данные на *NA*
+- Заменит все строковые значения `'NA'` в массиве данных на `None`
 
-**dataset['column'] = dataset['column'].astype(int)** - переведет все значения столбца *column* в тип данных *integer*
-___
+  ```python
+  dataset.replace('NA', None, inplace=true)
+  ```
+
+- Отобразит маску, по которой можно увидеть, где отсутствуют данные
+
+  ```python
+  dataset.isna()
+  ```
+
+- Заменит все отсутвующие данные на `'NA'`
+
+  ```python
+  dataset.fillna('NA', inplace=True)
+  ```
+
+- Переведет все значения столбца `column` в тип данных `integer`
+  ```python
+  dataset['column'] = dataset['column'].astype(int)
+  ```
+
+---
 
 ### Работа с датами <a id="dates"></a>
-**dataset['Date'] = pd.to_datetime(dataset['Date'], format='%Y-%m-%d %I-%p')** - перевод формата значений столбца *Date* к дате. Пример формата даты указан для ***2020-03-14 05-PM***
 
-**dataset.loc[0, 'Date'].day_name()** - возвращает текстовый день недели для значения поля *Date* в первой строке
+- Перевод формата значений столбца `Date` к дате. Пример формата даты указан для **_2020-03-14 05-PM_**
 
-**dataset = pd.read_csv('my_file.csv', parse_dates=['Date_1', 'Date_2'], date_parser=d_parser)** - пример перевода данных в столбцах с данными на этапе загрузки собственной функцией `d_parser`:  
-`d_parser = lambda x: pd.datetime.strptime(x, '%Y-%m-%d %I-%p')`
+  ```python
+  dataset['Date'] = pd.to_datetime(dataset['Date'], format='%Y-%m-%d %I-%p')
+  ```
 
-**dataset['Date'].dt.day_name()** - дни недели всех значений столбца *Date*
+- Возвращает текстовый день недели для значения поля `Date` в первой строке
 
-**dataset['Date'].min() / .max()** - поиск минимальной/максимальная даты столбца
+  ```python
+  dataset.loc[0, 'Date'].day_name()
+  ```
 
-**dataset['Date'] >= '2020'** - значения поля *Date* за 2020 год и позже. Можно использовать перевод строки в формат даты через `pd.to_datetime()`
+- Пример перевода данных в столбцах с данными на этапе загрузки собственной функцией `d_parser`:
 
-**dataset['2020-01':'2020-02']** - пример среза периода, когда *Date* - ключевое поле
+  ```python
+  d_parser = lambda x: pd.datetime.strptime(x, '%Y-%m-%d %I-%p')
+  dataset = pd.read_csv('my_file.csv', parse_dates=['Date_1', 'Date_2'], date_parser=d_parser)
+  ```
 
-**dataset['column'].resample('W').max()** - отображает максимальное значение столбца *column*, агрегируя до недели (для других аргументов функции см. коды *date offset* в *pandas*). *Date* - ключевое поле
+- Дни недели всех значений столбца `Date`
 
-**dataset.resample('D').agg({'col_1': 'mean', 'col_2': 'max'})** - отобразит данные в разрезе по дням с применением соотвествующих функций к столбцам
+  ```python
+  dataset['Date'].dt.day_name()
+  ```
+
+- Поиск минимальной (максимальная) даты столбца
+
+  ```python
+  dataset['Date'].min() # .max()
+  ```
+
+- Значения поля `Date` за 2020 год и позже. Можно использовать перевод строки в формат даты через `pd.to_datetime()`
+
+  ```python
+  dataset['Date'] >= '2020'
+  ```
+
+- Пример среза периода, когда `Date` - ключевое поле
+
+  ```python
+  dataset['2020-01':'2020-02']
+  ```
+
+- Отображает максимальное значение столбца `column`, агрегируя до недели (для других аргументов функции см. коды `date offset` в [_pandas_](https://pandas.pydata.org/docs/). `Date` - ключевое поле
+
+  ```python
+  dataset['column'].resample('W').max()
+  ```
+
+- Отобразит данные в разрезе по дням с применением соотвествующих функций к столбцам
+  ```python
+  dataset.resample('D').agg({'col_1': 'mean', 'col_2': 'max'})
+  ```
