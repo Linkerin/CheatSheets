@@ -1,14 +1,15 @@
 # TypeScript CheatSheet
 
-[Installation](#installation)
-[TSC (TypeScript Compiler) options](#tsc) 
-[Basic Types](#basic)
-[Enum](#enum) 
-[Objects](#objects) 
-[Type Assertion](#type-assertion) 
-[Functions](#functions)
-[Interfaces](#interfaces)
-[Classes](#classes)
+## Contents
+[Installation](#installation)  
+[TSC (TypeScript Compiler) options](#tsc)  
+[Basic Types](#basic)  
+[Enum](#enum)  
+[Objects](#objects)  
+[Type Assertion](#type-assertion)  
+[Functions](#functions)  
+[Interfaces](#interfaces)  
+[Classes](#classes)  
 
 ---
 
